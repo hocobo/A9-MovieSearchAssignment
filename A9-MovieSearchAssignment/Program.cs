@@ -14,14 +14,17 @@ namespace A9_MovieSearchAssignment
 
         public static void Menu()
         {
-            Console.WriteLine("Select media type:\n1. Movie\n2. Show\n3. Video\n4. Search");
+            Console.WriteLine("\nSelect Option:\n1. Display all Movies\n2. Display all Shows\n3. Display all Videos\n4. Search all databases\n");
         }
 
         public static void Switch()
         {
-            Media movie = new Movie();
-            Media show = new Show();
-            Media video = new Video();
+            Movie movie = new Movie();
+            Show show = new Show();
+            Video video = new Video();
+            movie.Read();
+            show.Read();
+            video.Read();
             string input = Console.ReadLine();
 
             while (input == "1" || input == "2" || input == "3"|| input == "4")
@@ -29,21 +32,43 @@ namespace A9_MovieSearchAssignment
                 switch (input)
                 {
                     case "1":
-                        movie.Read();
                         movie.Display();
                         break;
                     case "2":
-                        show.Read();
                         show.Display();
                         break;
                     case "3":
-                        video.Read();
                         video.Display();
                         break;
                     case "4":
-                        Console.WriteLine("Enter the name of the Movie, show, or video.");
+                        Console.WriteLine("\nEnter the name of the Movie, show, or video.\n");
                         var mediaName = Console.ReadLine();
-                        Console.Write(movie.Search(mediaName));
+                        
+                        if (movie.Search(mediaName) == null)
+                        {
+                            Console.WriteLine($"There was no result for {mediaName} in Movies");
+                        }
+                        else
+                        {
+                            movie.Results(mediaName);
+                        }
+                        if (show.Search(mediaName) == null)
+                        {
+                            Console.WriteLine($"There was no result for {mediaName} in Shows");
+                        }
+                        else
+                        {
+                            show.Results(mediaName);
+                        }
+                        
+                        if (video.Search(mediaName) == null)
+                        {
+                            Console.WriteLine($"There was no result for {mediaName} in Videos");
+                        }
+                        else
+                        {
+                            video.Results(mediaName);
+                        }
                         break;
                         
                 }

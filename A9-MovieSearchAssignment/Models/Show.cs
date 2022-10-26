@@ -30,7 +30,7 @@ namespace A9_MovieSearchAssignment.Models
         {
             try
             {
-                StreamReader sr = new StreamReader(@"csvFolder\shows.csv");
+                StreamReader sr = new StreamReader(@"C:\Users\Carls\Documents\Jake School\Fall 2022 (2)\.Net Database Programming\Module9\A9-MovieSearchAssignment\A9-MovieSearchAssignment\csvFolder\shows.csv");
                 sr.ReadLine();
                 while (!sr.EndOfStream)
                 {
@@ -67,11 +67,26 @@ namespace A9_MovieSearchAssignment.Models
                 Console.WriteLine();
             }
         }
-
-        public override Media Search(string mediaName)
+        public Show Search(string mediaName)
         {
-            Read();
-            return shows.FirstOrDefault(m => m.Title.Contains(mediaName, StringComparison.CurrentCultureIgnoreCase));
+            return shows.FirstOrDefault(m => m._ShowTitle.Contains(mediaName, StringComparison.CurrentCultureIgnoreCase));
+        }
+        public void Results(string mediaName)
+        {
+            IEnumerable<Show> showResults = new List<Show>();
+            showResults = shows.FindAll(m => m._ShowTitle.ToLower().Contains(mediaName.ToLower())).ToList();
+            int count = 0;
+            foreach (var m in showResults)
+            {
+                Console.WriteLine($"\nId: {m._ShowId}");
+                Console.WriteLine($"Title: {m._ShowTitle}");
+                Console.WriteLine($"Episode: {m._ShowEpisode}");
+                Console.WriteLine($"Season: {m._ShowSeason}");
+                Console.WriteLine($"Writer/s: {m._ShowWriters}\n");
+                count++;
+            }
+
+            Console.Write(count > 1 ? $"You found {count} matches in Shows\n" : $"You found {count} match in Shows\n");
         }
     }
 }

@@ -29,7 +29,7 @@ namespace A9_MovieSearchAssignment.Models
         {
             try
             {
-                StreamReader sr = new StreamReader(@"csvFolder\videos.csv");
+                StreamReader sr = new StreamReader(@"C:\Users\Carls\Documents\Jake School\Fall 2022 (2)\.Net Database Programming\Module9\A9-MovieSearchAssignment\A9-MovieSearchAssignment\csvFolder\videos.csv");
                 sr.ReadLine();
                 while (!sr.EndOfStream)
                 {
@@ -67,10 +67,26 @@ namespace A9_MovieSearchAssignment.Models
             }
         }
 
-        public override Media Search(string mediaName)
+        public Video Search(string mediaName)
         {
-            Read();
-            return videos.FirstOrDefault(m => m.Title.Contains(mediaName, StringComparison.CurrentCultureIgnoreCase));
+            return videos.FirstOrDefault(m => m._VideoTitle.Contains(mediaName, StringComparison.CurrentCultureIgnoreCase));
+        }
+        public void Results(string mediaName)
+        {
+            IEnumerable<Video> videoResults = new List<Video>();
+            videoResults = videos.FindAll(m => m._VideoTitle.ToLower().Contains(mediaName.ToLower())).ToList();
+            int count = 0;
+            foreach (var m in videoResults)
+            {
+                Console.WriteLine($"\nId: {m._VideoId}");
+                Console.WriteLine($"Title: {m._VideoTitle}");
+                Console.WriteLine($"Video Format: {m._VideoFormat}");
+                Console.WriteLine($"Video Length: {m._VideoLength}");
+                Console.WriteLine($"Video Region: {m._VideoRegions}\n");
+                count++;
+            }
+
+            Console.Write(count > 1 ? $"You found {count} matches in Videos\n" : $"You found {count} match in Videos\n");
         }
     }
 }
